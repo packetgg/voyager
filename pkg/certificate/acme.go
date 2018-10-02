@@ -47,7 +47,7 @@ func (c *Controller) newACMEClient() (*acme.Client, error) {
 		if err := client.SetChallengeProvider(acme.DNS01, provider); err != nil {
 			return nil, err
 		}
-		client.ExcludeChallenges([]acme.Challenge{acme.HTTP01})
+		client.ExcludeChallenges([]acme.Challenge{acme.HTTP01, acme.TLSALPN01})
 		return client, nil
 	}
 
@@ -62,7 +62,7 @@ func (c *Controller) newACMEClient() (*acme.Client, error) {
 		if err := client.SetChallengeProvider(acme.HTTP01, providers.DefaultHTTPProvider()); err != nil {
 			return nil, err
 		}
-		client.ExcludeChallenges([]acme.Challenge{acme.DNS01})
+		client.ExcludeChallenges([]acme.Challenge{acme.DNS01, acme.TLSALPN01})
 		return client, nil
 	case "aws", "route53":
 		if c.cfg.CloudProvider == "aws" && len(c.DNSCredentials) == 0 {
