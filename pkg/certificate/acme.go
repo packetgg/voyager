@@ -40,6 +40,8 @@ func (c *Controller) newACMEClient() (*acme.Client, error) {
 		return nil, err
 	}
 
+	client.ExcludeChallenges([]acme.Challenge{acme.TLSALPN01})
+
 	newDNSProvider := func(provider acme.ChallengeProvider, err error) (*acme.Client, error) {
 		if err != nil {
 			return nil, err
